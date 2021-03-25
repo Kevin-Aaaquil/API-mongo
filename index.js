@@ -66,7 +66,7 @@ app.post('/api/', async (req, res) => {
 //     res.send("Replaced Succesfully")
 // })
 
-// Pending: To delete a json file, depending on the ID received
+// To delete a json file, depending on the ID received                  // Pending
 
 
 
