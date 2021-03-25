@@ -25,7 +25,7 @@ let collection;
 const testfunc = async () => {
     try {
         await client.connect();
-        console.log(chalk.bold.green("****************DATABASE CONNECTED"));
+        console.log(chalk.bold.blue("****************DATABASE CONNECTED"));
         collection = client.db().collection("test");
     }
     catch (err) {
@@ -34,21 +34,14 @@ const testfunc = async () => {
     }
 }
 
-//Shows all the data                                                                    // Works
+//Shows all the data                                               // GET                    // Works
 app.get('/api/', async (req, res) => {
     let data = await collection.find({}).toArray();
     res.json(data);
 })
 
-// // to show one particular json object at a time according to the ID req
-// app.get('/api/', async (req, res) => {                                     // Bug Fix it
-//     let datain = req.body;
-//     let f = datain._id;
-//     let data = await collection.findOne({ _id: f });
-//     res.json(data);
-// })
 
-// To add a new json file to the MongoDB                                                // Works
+// To add a new json file to the MongoDB                          // POST                      // Works
 app.post('/api/', async (req, res) => {
     let data = req.body;
     await collection.insertOne(data);
@@ -56,24 +49,22 @@ app.post('/api/', async (req, res) => {
 })
 
 
-// // to edit existing files                                            // Bug Fix it
-// app.put('/api/', async (req, res) => {
-//     let internal = req.body;
-//     let dat = internal._id;
-//     let data = await collection.findOne({ _id: dat });
-//     data.name = internal.name;
-//     await collection.replaceOne(data);
-//     res.send("Replaced Succesfully")
-// })
+// To edit an existing file                                      //PUT                         //Pending
+app.put('/api/:id', async (req, res) => {
+    res.send("PUT");
+})
 
-// To delete a json file, depending on the ID received                  // Pending
 
+// To delete a json file, depending on the ID received           //DELETE                       // Pending
+app.delete('/api/:id', async (req, res) => {
+    res.send("DELETE");
+})
 
 
 // connecting to web-port
 let port = process.env.PORT || 3000;
 testfunc().then(() => {
     app.listen(port, () => {
-        console.log(chalk.bold.green(`*********************Listening on port ${port}`));
+        console.log(chalk.bold.blue(`*********************Listening on port ${port}`));
     });
 });
