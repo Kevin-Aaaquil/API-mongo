@@ -37,7 +37,7 @@ const testfunc = async () => {
 //Shows all the data                                               // GET                    // Works
 app.get('/api/', async (req, res) => {
     let data = await collection.find({}).toArray();
-    res.json(data);
+    res.send(data);
 })
 
 
@@ -58,6 +58,12 @@ app.put('/api/:id', async (req, res) => {
 // To delete a json file, depending on the ID received           //DELETE                       // Pending
 app.delete('/api/:id', async (req, res) => {
     res.send("DELETE");
+})
+
+
+// To show a particular json body 
+app.get('/api/:id', async (req, res) => {
+    res.send("SPECIFIC GET")
 })
 
 
