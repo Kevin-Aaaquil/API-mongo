@@ -36,35 +36,56 @@ const testfunc = async () => {
 
 //Shows all the data                                               // GET                    // Works
 app.get('/api/', async (req, res) => {
-    let data = await collection.find({}).toArray();
-    res.send(data);
-})
+    try {
+        let data = await collection.find({}).toArray();
+        res.send(data);
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 
 
 // To add a new json file to the MongoDB                          // POST                      // Works
 app.post('/api/', async (req, res) => {
-    let data = req.body;
-    await collection.insertOne(data);
-    res.send("Your Data has been saved");
-})
+    try {
+        let data = req.body;
+        await collection.insertOne(data);
+        res.send("Your Data has been saved");
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 
 
 // To edit an existing file                                      //PUT                         //Pending
 app.put('/api/:id', async (req, res) => {
-    res.send("PUT");
-})
+    try {
+        res.send("PUT");
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 
 
 // To delete a json file, depending on the ID received           //DELETE                       // Pending
 app.delete('/api/:id', async (req, res) => {
-    res.send("DELETE");
-})
+    try {
+        res.send("DELETE");
+        console.log(req.params.id);
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 
 
 // To show a particular json body 
 app.get('/api/:id', async (req, res) => {
-    res.send("SPECIFIC GET")
-})
+    try {
+        res.send("SPECIFIC GET");
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 
 
 // connecting to web-port
