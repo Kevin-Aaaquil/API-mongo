@@ -67,13 +67,19 @@ app.put('/api/:id', async (req, res) => {
 });
 
 
-// To delete a json file, depending on the ID received           //DELETE                       // Pending
+// To delete a json file, depending on the ID received           //DELETE                       // Works
 app.delete('/api/:id', async (req, res) => {
     try {
-        res.send("DELETE");
-        console.log(req.params.id);
+        //res.send("DELETE");
+        // console.log(req.params.id);        
+        collection.deleteOne({ name: req.params.id }, (err, obj) => {
+            if (err) throw err;
+            console.log("Document Deleted");
+            res.send("Document Deleted")
+        });
     } catch (error) {
         console.log(error.message);
+        res.send(error.message);
     }
 });
 
