@@ -1,1 +1,0 @@
-// To route all get, post, put, delete link routes

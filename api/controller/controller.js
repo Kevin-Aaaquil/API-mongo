@@ -1,1 +1,0 @@
-// To handle all responses for each get, post, put, delete
