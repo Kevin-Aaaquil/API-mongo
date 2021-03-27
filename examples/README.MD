@@ -1,0 +1,1 @@
+# A example folder with json files, the type which are stored in mongo
