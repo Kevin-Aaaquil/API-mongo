@@ -72,7 +72,7 @@ app.delete('/api/:id', async (req, res) => {
     try {
         //res.send("DELETE");
         // console.log(req.params.id);        
-        collection.deleteOne({ name: req.params.id }, (err, obj) => {
+        await collection.deleteOne({ name: req.params.id }, (err, obj) => {
             if (err) throw err;
             console.log("Document Deleted");
             res.send("Document Deleted")
@@ -80,16 +80,6 @@ app.delete('/api/:id', async (req, res) => {
     } catch (error) {
         console.log(error.message);
         res.send(error.message);
-    }
-});
-
-
-// To show a particular json body 
-app.get('/api/:id', async (req, res) => {
-    try {
-        res.send("SPECIFIC GET");
-    } catch (error) {
-        console.log(error.message);
     }
 });
 
