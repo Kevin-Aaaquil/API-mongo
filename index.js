@@ -1,14 +1,18 @@
 //Initialize express and app
 const express = require('express');
 const app = express();
+
 // Initialize Mongo Client
 const MongoClient = require("mongodb").MongoClient;
+
+// Initializing ObjectId for Specific Get, Put & Delete requests
+const ObjectId = require("mongodb").ObjectID;
+
 // Initialize chalk for console decoration and shit...
 const chalk = require('chalk');
 
 // Initializing Dotenv
 const dotenv = require('dotenv');
-
 dotenv.config();
 
 // Setting up middleware 
@@ -41,6 +45,22 @@ app.get('/api/', async (req, res) => {
         res.send(data);
     } catch (error) {
         console.log(error.message);
+        res.send(error.message);
+    }
+});
+
+// Shows Specific Unit                                         // Specific GET with Err Handling at Two Stages           // Works
+app.get('/api/:id', async (req, res) => {
+    try {
+        let data = await collection.findOne({ "_id": new ObjectId(req.params.id) }, (err, result) => {
+            if (err) {
+                return res.status(500).send(err.message);
+            }
+            res.send(result);
+        });
+    } catch (error) {
+        res.send(error.message);
+        console.log(error.message);
     }
 });
 
@@ -53,16 +73,24 @@ app.post('/api/', async (req, res) => {
         res.send("Your Data has been saved");
     } catch (error) {
         console.log(error.message);
+        res.send(error.message);
     }
 });
 
 
-// To edit an existing file                                      //PUT                         //Pending
+// To edit an existing file                                       //PUT                         // Works
 app.put('/api/:id', async (req, res) => {
     try {
-        res.send("PUT");
+        //res.send("PUT");
+        let datain = req.body;
+        let data = await collection.findOne({ "_id": new ObjectId(req.params.id) });
+        data.name = datain.name;
+        data.Author = datain.Author;
+        await collection.replaceOne({ "_id": new ObjectId(req.params.id) }, data);
+        res.send("Data Replaced");
     } catch (error) {
         console.log(error.message);
+        res.send(error.message);
     }
 });
 
@@ -72,9 +100,9 @@ app.delete('/api/:id', async (req, res) => {
     try {
         //res.send("DELETE");
         // console.log(req.params.id);        
-        await collection.deleteOne({ name: req.params.id }, (err, obj) => {
+        await collection.deleteOne({ "_id": new ObjectId(req.params.id) }, (err, obj) => {
             if (err) throw err;
-            console.log("Document Deleted");
+            console.log(chalk.red("Document Deleted"));
             res.send("Document Deleted")
         });
     } catch (error) {
